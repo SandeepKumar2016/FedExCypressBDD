@@ -1,5 +1,8 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import FedExPage from './FedExPage'
+import OpenAccountPage from './OpenAccountPage'
+import CustomizedTrackingPage from './CustomizedTrackingPage'
+import ShippingPage from './ShippingPage'
   
 Given('User Launches the URL', ()=>{
     FedExPage.launchApplication();
@@ -33,12 +36,11 @@ And('User should able to see Error Message', ()=>{
 });
 
 When('User Navigates to Customized Tracking page', ()=>{
-    FedExPage.customizedFedExTracking();
+    CustomizedTrackingPage.navigateToCustomizedFedExTracking();
 });
 
 Then('Validate the URL And Validate the Get Visibility object', ()=>{
-    cy.url().should("eq", "https://www.FedExPage.com/en-nl/tracking/advanced.html")
-    cy.get(FedExPage.getVisibility).should("have.text", 'Get visibility and details on the status of your shipments - all in a fully customised format.');
+    CustomizedTrackingPage.validateCustomizedTrackingPage()
 });
 
 When('User Navigates to Tracking menu And click on Insert Tracking Number page', ()=>{
@@ -64,15 +66,15 @@ When('User Navigates to Account Page', ()=>{
 });
 
 And('User click on Open An Account And Click on the Open A Personal Account', ()=>{
-    FedExPage.navigateToOpenAccountPage();
+    OpenAccountPage.navigateToOpenAccountPage();
 });
 
 Then('User should able to fill the form', ()=>{
-    FedExPage.createAccount();
+    OpenAccountPage.createAccount();
 });
 
 When('User Navigates to Shipping menu', ()=>{
-    cy.navigateToShipWithAccount();
+    cy.get(FedExPage.shippingLink).clikc()
 });
 
 Then('Click on the Ship With Account link', ()=>{
@@ -81,7 +83,7 @@ Then('Click on the Ship With Account link', ()=>{
 });
 
 And('validate the URL And Page Header of Ship With Account Page', ()=>{
-    FedExPage.validateShipWithoutAccount();
+    ShippingPage.validateShipWithAccount();
 });
 
 Then('Click on the Ship Without Account link', ()=>{
@@ -90,5 +92,5 @@ Then('Click on the Ship Without Account link', ()=>{
 });
 
 And('validate the URL And Page Header of Ship Without Account Page', ()=>{
-    FedExPage.validateShipWithoutAccount();
+    ShippingPage.validateShipWithoutAccount();
 });
